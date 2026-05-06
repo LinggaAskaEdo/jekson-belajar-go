@@ -3,9 +3,9 @@ package rest
 import (
 	"sync"
 
-	"github.com/gin-gonic/gin"
-
 	"belajar-go/src/service"
+
+	"github.com/gin-gonic/gin"
 )
 
 type rest struct {

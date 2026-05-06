@@ -38,6 +38,16 @@ func (d *userRepository) findAllUserFromSql(filter *dto.UserFilter) ([]domain.Us
 }
 
 func (d *userRepository) createUserFromSql(ctx context.Context, users []*domain.UserCreateDomain) ([]*domain.UserCreateDomain, error) {
+	const maxBatchSize = 1000
+
+	if len(users) == 0 {
+		return nil, fmt.Errorf("users cannot be empty")
+	}
+
+	if len(users) > maxBatchSize {
+		return nil, fmt.Errorf("maximum batch allowed is %d", maxBatchSize)
+	}
+
 	begin, err := d.sql0.BeginTxx(ctx, &sql.TxOptions{
 		Isolation: sql.LevelDefault,
 	})

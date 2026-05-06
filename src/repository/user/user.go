@@ -3,11 +3,11 @@ package user
 import (
 	"context"
 
-	"github.com/jmoiron/sqlx"
-
 	"belajar-go/src/config/query"
 	"belajar-go/src/domain"
 	"belajar-go/src/dto"
+
+	"github.com/jmoiron/sqlx"
 )
 
 type UserRepositoryInterface interface {

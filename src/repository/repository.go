@@ -1,10 +1,10 @@
 package repository
 
 import (
-	"github.com/jmoiron/sqlx"
-
 	"belajar-go/src/config/query"
 	"belajar-go/src/repository/user"
+
+	"github.com/jmoiron/sqlx"
 )
 
 type Repository struct {

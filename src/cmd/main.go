@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/jmoiron/sqlx"
-	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
-
 	"belajar-go/src/config/database"
 	"belajar-go/src/config/query"
 	"belajar-go/src/handler/rest"
 	"belajar-go/src/repository"
 	"belajar-go/src/service"
+
+	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -49,7 +49,7 @@ func main() {
 	appCfg, err := LoadAppConfig()
 
 	if err != nil {
-		log.Fatalf("failed to load app config: %v", err)
+		log.Printf("failed to load app config: %v", err)
 	}
 
 	rest.InitRestHandler(userService, appCfg.Port)

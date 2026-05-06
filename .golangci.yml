@@ -121,7 +121,7 @@ formatters:
     gci:
       sections:
         - standard          # Standard library imports (e.g., "fmt", "os").
-        - prefix(go-far)    # Your project's local packages (change to your module name).
+        - prefix(belajar-go)    # Your project's local packages (change to your module name).
         - default           # All other third‑party imports.
       custom-order: true    # Enforce the exact order above.
 

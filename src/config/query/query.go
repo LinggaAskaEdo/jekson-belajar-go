@@ -7,9 +7,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/VauntDev/tqla"
-
 	"belajar-go/src/dto"
+
+	"github.com/VauntDev/tqla"
 )
 
 type LoadQuery struct {

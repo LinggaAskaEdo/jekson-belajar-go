@@ -3,11 +3,11 @@ package rest
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-
 	"belajar-go/src/domain"
 	"belajar-go/src/dto"
 	"belajar-go/src/util"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (e *rest) ListUsers(c *gin.Context) {
