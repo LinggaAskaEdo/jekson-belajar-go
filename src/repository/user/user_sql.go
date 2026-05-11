@@ -44,10 +44,6 @@ func (d *userRepository) createUserFromSql(ctx context.Context, users []*domain.
 		return nil, fmt.Errorf("users cannot be empty")
 	}
 
-	if len(users) > maxBatchSize {
-		return nil, fmt.Errorf("maximum batch allowed is %d", maxBatchSize)
-	}
-
 	begin, err := d.sql0.BeginTxx(ctx, &sql.TxOptions{
 		Isolation: sql.LevelDefault,
 	})
@@ -57,9 +53,8 @@ func (d *userRepository) createUserFromSql(ctx context.Context, users []*domain.
 
 	defer func() {
 		if err != nil {
-			cerr := begin.Rollback()
-			if cerr != nil {
-				return
+			if cerr := begin.Rollback(); cerr != nil {
+				err = fmt.Errorf("rollback failed: %w", cerr)
 			}
 			return
 		}
@@ -71,14 +66,26 @@ func (d *userRepository) createUserFromSql(ctx context.Context, users []*domain.
 		return nil, errors.New("query CreateUser not found")
 	}
 
-	tqlaCompile, args, err := query.CompileTqla(queryStr, users)
-	if err != nil {
-		return nil, fmt.Errorf("failed to compile query: %w", err)
-	}
+	var tqlaCompile string
+	var args []any
 
-	_, err = begin.ExecContext(ctx, tqlaCompile, args...)
-	if err != nil {
-		return nil, fmt.Errorf("failed to execute query: %w", err)
+	for i := 0; i < len(users); i += maxBatchSize {
+		end := i + maxBatchSize
+		if end > len(users) {
+			end = len(users)
+		}
+
+		chunk := users[i:end]
+
+		tqlaCompile, args, err = query.CompileTqla(queryStr, chunk)
+		if err != nil {
+			return nil, fmt.Errorf("failed to compile query: %w", err)
+		}
+
+		_, err = begin.ExecContext(ctx, tqlaCompile, args...)
+		if err != nil {
+			return nil, fmt.Errorf("failed to execute query: %w", err)
+		}
 	}
 
 	return users, nil
