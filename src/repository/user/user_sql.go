@@ -38,7 +38,7 @@ func (d *userRepository) findAllUserFromSql(filter *dto.UserFilter) ([]domain.Us
 }
 
 func (d *userRepository) createUserFromSql(ctx context.Context, users []*domain.UserCreateDomain) ([]*domain.UserCreateDomain, error) {
-	const maxBatchSize = 100
+	const maxBatchSize = 50
 
 	if len(users) == 0 {
 		return nil, fmt.Errorf("users cannot be empty")

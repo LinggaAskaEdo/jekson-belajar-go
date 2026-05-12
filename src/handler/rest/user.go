@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"errors"
 	"net/http"
 
 	"belajar-go/src/domain"
@@ -33,13 +34,20 @@ func (e *rest) CreateUser(c *gin.Context) {
 	var request []*domain.UserCreateDomain
 
 	if err := c.ShouldBindJSON(&request); err != nil {
-		util.ResponseError(c, http.StatusBadRequest, "invalid request body couse : "+err.Error())
+		var maxBytesErr *http.MaxBytesError
+		if errors.As(err, &maxBytesErr) {
+			util.ResponseError(c, http.StatusRequestEntityTooLarge,
+				"request body too large, maximum allowed is 2 MB",
+			)
+			return
+		}
+		util.ResponseError(c, http.StatusBadRequest, "invalid request body cous")
 		return
 	}
 
 	users, err := e.svc.User.CreateDataUser(ctx, request)
 	if err != nil {
-		util.ResponseError(c, http.StatusInternalServerError, "internal server error cause : "+err.Error())
+		util.ResponseError(c, http.StatusInternalServerError, "internal server error cause")
 		return
 	}
 

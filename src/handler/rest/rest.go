@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"belajar-go/src/middleware"
 	"sync"
 
 	"belajar-go/src/service"
@@ -30,7 +31,7 @@ func InitRestHandler(svc *service.Service, port string) {
 
 func (e *rest) Serve() {
 	e.gin.GET("/users", e.ListUsers)
-	e.gin.POST("/user", e.CreateUser)
+	e.gin.POST("/user", middleware.LimitBodySize(2<<20), e.CreateUser)
 
 	if err := e.gin.Run(":" + e.port); err != nil {
 		panic(err)
