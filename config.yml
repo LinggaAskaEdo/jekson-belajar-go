@@ -1,0 +1,29 @@
+server:
+  port: 9000
+  write_timeout: 10s
+  read_timeout: 10s
+  idle_timeout: 60s
+  shutdown_timeout: 5s
+  mode: release
+
+logger:
+  enabled: true
+  level: info # debug, info, warn, error
+  format: json # json, console
+  output: stdout # stdout, file
+  path: ./logs/app.log
+  max_size: 100 # megabytes
+  max_backups: 7 # > 7 file delete the oldest files
+  max_age: 30 # after 30 days delete the file log
+  compress: true # compress file log to .gz
+
+postgres:
+  enabled: true
+  driver: postgres
+  max_open_conns: 10
+  max_idle_conns: 5
+  conn_max_lifetime: 1h
+  conn_max_idle_time: 30m
+
+gin:
+  app_name: belajar-go
