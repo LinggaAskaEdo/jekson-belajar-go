@@ -1,12 +1,13 @@
 package main
 
 import (
+	"fmt"
+	"log"
+
 	"belajar-go/src/config/query"
 	"belajar-go/src/handler/rest"
 	"belajar-go/src/repository"
 	"belajar-go/src/service"
-	"fmt"
-	"log"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"

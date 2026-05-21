@@ -1,9 +1,9 @@
 package rest
 
 import (
-	"belajar-go/src/middleware"
 	"sync"
 
+	"belajar-go/src/middleware"
 	"belajar-go/src/service"
 
 	"github.com/gin-gonic/gin"

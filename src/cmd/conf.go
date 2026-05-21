@@ -1,11 +1,11 @@
 package main
 
 import (
+	"os"
+
 	"belajar-go/src/config/database"
 	"belajar-go/src/config/logger"
 	"belajar-go/src/config/server"
-
-	"os"
 
 	"github.com/spf13/viper"
 )

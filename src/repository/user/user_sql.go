@@ -41,7 +41,7 @@ func (d *userRepository) createUserFromSql(ctx context.Context, users []*domain.
 	const maxBatchSize = 50
 
 	if len(users) == 0 {
-		return nil, fmt.Errorf("users cannot be empty")
+		return nil, errors.New("users cannot be empty")
 	}
 
 	begin, err := d.sql0.BeginTxx(ctx, &sql.TxOptions{
@@ -71,9 +71,7 @@ func (d *userRepository) createUserFromSql(ctx context.Context, users []*domain.
 
 	for i := 0; i < len(users); i += maxBatchSize {
 		end := i + maxBatchSize
-		if end > len(users) {
-			end = len(users)
-		}
+		end = min(end, len(users))
 
 		chunk := users[i:end]
 
